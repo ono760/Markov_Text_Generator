@@ -1,5 +1,6 @@
 import nltk, re, pprint
 from nltk import word_tokenize
+from nltk.tokenize import sent_tokenize, word_tokenize
 
 class Markovify:
 
@@ -12,19 +13,22 @@ class Markovify:
 		self.nltk_text = None
 		self.start_words = []
 		self.dictionary = {}
+		self.parts_of_speech = []
 
 	def import_text (self, text):
 		with open(text, 'r') as original:
 			self.corpus += original.read()
+		print(sent_tokenize(self.corpus))
 		self.words = self.corpus.split(' ')
 		self.tokens = word_tokenize(self.corpus)
 		self.nltk_text = nltk.Text(self.tokens)
+		self.parts_of_speech = nltk.pos_tag(self.tokens)
 
 	def create_dictionary (self):
 		
-		for i in xrange(len(self.words)-(self.chain-1)):
+		for i in range(len(self.words)-(self.chain-1)):
 			cur_key = []
-			for j in xrange(self.chain-1):
+			for j in range(self.chain-1):
 				cur_key.append(self.words[i+j])
 			cur_key = tuple(cur_key)
 			if cur_key in self.dictionary:
@@ -53,7 +57,7 @@ class Markovify:
 		# print cache
 		output_text += cache
 
-		for i in xrange(self.length-(self.chain-1)):
+		for i in range(self.length-(self.chain-1)):
 			for key in self.dictionary:
 				if tuple(cache) == key:
 					next_word = random.choice(self.dictionary[key])
@@ -61,9 +65,9 @@ class Markovify:
 					cache.append(next_word)
 					cache.pop(0)
 					break
-		print ' '.join(output_text)
+		print (' '.join(output_text))
 
-trump = Markovify(3,50)
+trump = Markovify(5,15)
 trump.import_text('trump.txt')
 # trump.import_text('star_wars.txt')
 trump.create_dictionary()
