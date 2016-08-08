@@ -1,3 +1,5 @@
+import nltk, re, pprint
+from nltk import word_tokenize
 
 class Markovify:
 
@@ -6,15 +8,20 @@ class Markovify:
 		self.chain = chain
 		self.length = length
 		self.words = []
+		self.tokens = []
+		self.nltk_text = None
 		self.start_words = []
 		self.dictionary = {}
 
 	def import_text (self, text):
 		with open(text, 'r') as original:
 			self.corpus += original.read()
+		self.words = self.corpus.split(' ')
+		self.tokens = word_tokenize(self.corpus)
+		self.nltk_text = nltk.Text(self.tokens)
 
 	def create_dictionary (self):
-		self.words = self.corpus.split(' ')
+		
 		for i in xrange(len(self.words)-(self.chain-1)):
 			cur_key = []
 			for j in xrange(self.chain-1):
@@ -58,6 +65,6 @@ class Markovify:
 
 trump = Markovify(3,50)
 trump.import_text('trump.txt')
-trump.import_text('star_wars.txt')
+# trump.import_text('star_wars.txt')
 trump.create_dictionary()
 trump.generate_text()
