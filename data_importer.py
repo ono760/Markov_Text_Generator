@@ -12,13 +12,16 @@ relevant_text = ''
 for obj in relevant_raw:
 	relevant_text += obj.text
 
-tokens = nltk.word_tokenize(relevant_text)
+# tokens = nltk.word_tokenize(relevant_text)
 sent = nltk.sent_tokenize(relevant_text)
-pos = nltk.pos_tag(nltk.word_tokenize(sent[0]))
-bigram = nltk.bigrams(tokens[10:20])
+# pos = nltk.pos_tag(nltk.word_tokenize(sent[0]))
+# bigram = nltk.bigrams(tokens[10:20])
 # taggin POS
-fd = nltk.FreqDist(tag for (word,tag) in pos)
-print fd.tabulate()
+# fd = nltk.FreqDist(tag for (word,tag) in pos)
+# print fd.tabulate()
 
-list_bi = list(bigram)
+# list_bi = list(bigram)
 
+sent = [nltk.word_tokenize(i) for i in sent]
+sent = [nltk.pos_tag(i) for i in sent]
+print sent
