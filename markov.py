@@ -1,3 +1,4 @@
+import codecs
 import nltk, re, pprint
 from nltk import word_tokenize
 
@@ -14,7 +15,7 @@ class Markovify:
 		self.dictionary = {}
 
 	def import_text (self, text):
-		with open(text, 'r') as original:
+		with codecs.open(text, 'r', 'utf-8-sig') as original:
 			self.corpus += original.read()
 		self.words = self.corpus.split(' ')
 		self.tokens = word_tokenize(self.corpus)
