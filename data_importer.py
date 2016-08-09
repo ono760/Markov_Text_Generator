@@ -1,7 +1,6 @@
 import urllib
-import codecs
 from bs4 import BeautifulSoup
-from nltk import word_tokenize
+import nltk, re, pprint
 
 url = 'http://www.cnn.com/2016/08/08/politics/donald-trump-hillary-clinton-economic-plans/index.html'
 html = urllib.urlopen(url).read().decode('utf8')
@@ -13,6 +12,13 @@ relevant_text = ''
 for obj in relevant_raw:
 	relevant_text += obj.text
 
-tokens = word_tokenize(relevant_text)
+tokens = nltk.word_tokenize(relevant_text)
+sent = nltk.sent_tokenize(relevant_text)
+pos = nltk.pos_tag(nltk.word_tokenize(sent[0]))
+bigram = nltk.bigrams(tokens[10:20])
+# taggin POS
+fd = nltk.FreqDist(tag for (word,tag) in pos)
+print fd.tabulate()
 
-print tokens
+list_bi = list(bigram)
+
