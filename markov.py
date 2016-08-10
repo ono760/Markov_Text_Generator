@@ -54,10 +54,10 @@ class Markovify:
 
     def sentiment_analysis(self):
         if self.sentiment == 'positive':
-            sentiment_factor = .3
+            sentiment_factor = .5
             sentiment = 'pos'
         elif self.sentiment == 'negative':
-            sentiment_factor = .3
+            sentiment_factor = .1
             sentiment = 'neg'
         elif self.sentiment == 'neutral':
             sentiment_factor = .5
@@ -119,10 +119,9 @@ class Markovify:
         print(' '.join(output_text))
 
 
-print Markovify.__dict__
+
 trump = Markovify(3, 150, 'positive')
 trump.import_text('trump.txt', 'speech')
-# trump.import_text('star_wars.txt')
 trump.create_dictionary()
 # trump.generate_text()
 trump.sentiment_analysis()
