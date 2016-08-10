@@ -36,8 +36,8 @@ class Markovify:
 
         if text_type == 'speech':
             with open(text, 'r') as original:
-                self.corpus_speech += original.read()
-                self.corpus_speech = unicode(self.corpus_speech, 'utf-8')
+                temp_speech = original.read()
+                self.corpus_speech += unicode(temp_speech, 'utf-8')
             self.sent_speech = sent_tokenize(self.corpus_speech)
             self.tokens_speech = word_tokenize(self.corpus_speech)
             self.pos_speech = nltk.pos_tag(self.tokens_speech)
@@ -45,8 +45,8 @@ class Markovify:
 
         elif text_type == 'tweet':
             with open(text, 'r') as original:
-                self.corpus_tweet += original.read()
-                self.corpus_tweet = unicode(self.corpus_tweet, 'utf-8')
+                temp_tweet = original.read()
+                self.corpus_tweet += unicode(temp_tweet, 'utf-8')
             self.sent_tweet = sent_tokenize(self.corpus_tweet)
             self.tokens_tweet = word_tokenize(self.corpus_tweet)
             self.pos_tweet = nltk.pos_tag(self.tokens_tweet)
@@ -122,10 +122,10 @@ class Markovify:
                     break
         print(' '.join(output_text))
 
-
-
 trump = Markovify(3, 50, 'negative')
-trump.import_text('trump.txt', 'speech')
+trump.import_text('06-22-16-On_hilary.txt', 'speech')
+trump.import_text('08-08-16-2nd_amend_speech.txt', 'speech')
+trump.import_text('07-28-16-RNC.txt', 'speech')
 trump.sentiment_filter('speech')
 trump.create_dictionary()
 trump.generate_text()
