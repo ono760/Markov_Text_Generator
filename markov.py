@@ -1,4 +1,4 @@
-import nltk, re, pprint
+printimport nltk, re, pprint
 # from nltk import tokenize
 from nltk import sent_tokenize, word_tokenize
 # from nltk.classify import NaiveBayesClassifier
@@ -6,6 +6,7 @@ from nltk import sent_tokenize, word_tokenize
 # from nltk.sentiment import SentimentAnalyzer
 # from nltk.sentiment.util import *
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import string
 
 class Markovify:
 
@@ -73,7 +74,7 @@ class Markovify:
         for sentence in sentences:
             ss = sid.polarity_scores(sentence)
             if ss[sentiment] > sentiment_factor:
-                self.tokens += word_tokenize(sentence)         
+                self.tokens += word_tokenize(sentence)     
 
     def create_dictionary(self):
         # to create the words we may want to adjust between tweets and speech
@@ -99,10 +100,10 @@ class Markovify:
         for word in self.tokens:
             if word[0].upper() + word[1:].lower() == word:
                 start_words.append(word)
-
+                start_words = [''.join(c for c in s if c not in string.punctuation) for s in start_words]
+                start_words = [s for s in start_words if s]
         first_word_idx = int(len(start_words) * random.random())
         first_word = start_words[first_word_idx]
-
         cache = [first_word]
         for i, word in enumerate(self.tokens):
             if word == first_word:
