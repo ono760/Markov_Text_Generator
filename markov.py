@@ -52,7 +52,7 @@ class Markovify:
             self.pos_tweet = nltk.pos_tag(self.tokens_tweet)
             self.words_tweet = self.corpus_tweet.split(' ')
 
-    def sentiment_analysis(self):
+    def sentiment_filter(self, text_type):
         if self.sentiment == 'positive':
             sentiment_factor = .5
             sentiment = 'pos'
@@ -63,17 +63,22 @@ class Markovify:
             sentiment_factor = .5
             sentiment = 'neu'
 
-        sentences = sent_tokenize(self.corpus_speech)
+        if text_type == 'speech':
+            text_type = self.corpus_speech
+        elif text_type == 'tweet':
+            text_type = self.corpus_tweet
+
+        sentences = sent_tokenize(text_type)
         sid = SentimentIntensityAnalyzer()
         for sentence in sentences:
             ss = sid.polarity_scores(sentence)
             if ss[sentiment] > sentiment_factor:
-                print(sentence)
-                print ss
+                self.tokens += word_tokenize(sentence)         
 
     def create_dictionary(self):
         # to create the words we may want to adjust between tweets and speech
-        self.tokens = self.tokens_tweet + self.tokens_speech
+        # self.tokens = self.tokens_tweet + self.tokens_speech
+
         for i in range(len(self.tokens) - (self.chain_length - 1)):
             cur_key = []
             for j in range(self.chain_length - 1):
@@ -85,7 +90,6 @@ class Markovify:
                 self.dictionary[cur_key] = [self.tokens[i + self.chain_length - 1]]
 
     def generate_text(self):
-        print "generate_text"
         import random
         output_text = []
         start_words = []
@@ -120,8 +124,8 @@ class Markovify:
 
 
 
-trump = Markovify(3, 150, 'positive')
+trump = Markovify(3, 50, 'negative')
 trump.import_text('trump.txt', 'speech')
+trump.sentiment_filter('speech')
 trump.create_dictionary()
-# trump.generate_text()
-trump.sentiment_analysis()
+trump.generate_text()
