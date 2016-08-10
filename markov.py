@@ -1,4 +1,4 @@
-printimport nltk, re, pprint
+import nltk, re, pprint
 # from nltk import tokenize
 from nltk import sent_tokenize, word_tokenize
 # from nltk.classify import NaiveBayesClassifier
@@ -52,6 +52,18 @@ class Markovify:
             self.tokens_tweet = word_tokenize(self.corpus_tweet)
             self.pos_tweet = nltk.pos_tag(self.tokens_tweet)
             self.words_tweet = self.corpus_tweet.split(' ')
+
+    def import_tweet(self):
+
+        import twython
+        CONSUMER_KEY = 'f0EN2FUizy3rPOqWrdNVeft8a'
+        CONSUMER_SECRET = 'yi6404nero8vuHtdUhA2V0N7YBZfw2UdrWBfnZfCjHeT9vLGHB'
+        twitter = twython.Twython(CONSUMER_KEY,CONSUMER_SECRET)
+        user_timeline = twitter.get_user_timeline(user_id='25073877',count = 20)
+        for tweet in user_timeline:
+            self.corpus_tweet += tweet['text']
+        self.sent_tweet = sent_tokenize(self.corpus_tweet)
+        print(self.corpus_tweet)
 
     def sentiment_filter(self, text_type):
         if self.sentiment == 'positive':
@@ -130,3 +142,4 @@ trump.import_text('07-28-16-RNC.txt', 'speech')
 trump.sentiment_filter('speech')
 trump.create_dictionary()
 trump.generate_text()
+trump.import_tweet()
