@@ -7,6 +7,7 @@ from nltk import sent_tokenize, word_tokenize
 # from nltk.sentiment.util import *
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import string
+from env import CONSUMER_KEY, CONSUMER_SECRET
 
 class Markovify:
 
@@ -56,10 +57,8 @@ class Markovify:
     def import_tweet(self):
 
         import twython
-        CONSUMER_KEY = 'f0EN2FUizy3rPOqWrdNVeft8a'
-        CONSUMER_SECRET = 'yi6404nero8vuHtdUhA2V0N7YBZfw2UdrWBfnZfCjHeT9vLGHB'
         twitter = twython.Twython(CONSUMER_KEY,CONSUMER_SECRET)
-        user_timeline = twitter.get_user_timeline(user_id='25073877',count = 20)
+        user_timeline = twitter.get_user_timeline(user_id='25073877',count = 5)
         for tweet in user_timeline:
             self.corpus_tweet += tweet['text']
         self.sent_tweet = sent_tokenize(self.corpus_tweet)
