@@ -32,14 +32,13 @@ class Markovify:
 
         self.nltk_text = None
     
-    def import_speech(self, text, text_type):
+    def import_speech(self, text):
         with open(text, 'r') as original:
             temp_speech = original.read()
             self.corpus_speech += unicode(temp_speech, 'utf-8')
         self.sent_speech = sent_tokenize(self.corpus_speech)
         self.tokens_speech = word_tokenize(self.corpus_speech)
         self.pos_speech = nltk.pos_tag(self.tokens_speech)
-        self.words_speech = self.corpus_speech.split(' ')
 
     def import_tweet(self):
         twitter = twython.Twython(CONSUMER_KEY,CONSUMER_SECRET)
@@ -53,22 +52,21 @@ class Markovify:
         self.sent_tweet = sent_tokenize(self.corpus_tweet)
         self.tokens_tweet = word_tokenize(self.corpus_tweet)
         self.pos_tweet = nltk.pos_tag(self.tokens_tweet)
-        self.words_tweet = self.corpus_tweet.split(' ')
         
     def sentiment_filter(self, text_type):
         if self.sentiment == 'positive':
-            sentiment_factor = .5
+            sentiment_factor = .3
             sentiment = 'pos'
         elif self.sentiment == 'negative':
-            sentiment_factor = .1
+            sentiment_factor = .3
             sentiment = 'neg'
         elif self.sentiment == 'neutral':
-            sentiment_factor = .5
+            sentiment_factor = .3
             sentiment = 'neu'
 
-        if text_type == 'speech':
+        if text_type == 'Speech':
             text_type = self.corpus_speech
-        elif text_type == 'tweet':
+        elif text_type == 'Tweet':
             text_type = self.corpus_tweet
 
         sentences = sent_tokenize(text_type)
