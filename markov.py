@@ -2,6 +2,7 @@ import nltk, re, pprint
 from nltk import sent_tokenize, word_tokenize
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import string
+import twython
 from env import CONSUMER_KEY, CONSUMER_SECRET
 
 
@@ -30,38 +31,30 @@ class Markovify:
 
         self.nltk_text = None
     
-    def import_text(self, text, text_type):
-
-        if text_type == 'speech':
-            with open(text, 'r') as original:
-                temp_speech = original.read()
-                self.corpus_speech += unicode(temp_speech, 'utf-8')
-            self.sent_speech = sent_tokenize(self.corpus_speech)
-            self.tokens_speech = word_tokenize(self.corpus_speech)
-            self.pos_speech = nltk.pos_tag(self.tokens_speech)
-            self.words_speech = self.corpus_speech.split(' ')
-
-        elif text_type == 'tweet':
-            with open(text, 'r') as original:
-                temp_tweet = original.read()
-                self.corpus_tweet += unicode(temp_tweet, 'utf-8')
-            self.sent_tweet = sent_tokenize(self.corpus_tweet)
-            self.tokens_tweet = word_tokenize(self.corpus_tweet)
-            self.pos_tweet = nltk.pos_tag(self.tokens_tweet)
-            self.words_tweet = self.corpus_tweet.split(' ')
+    def import_speech(self, text, text_type):
+        with open(text, 'r') as original:
+            temp_speech = original.read()
+            self.corpus_speech += unicode(temp_speech, 'utf-8')
+        self.sent_speech = sent_tokenize(self.corpus_speech)
+        self.tokens_speech = word_tokenize(self.corpus_speech)
+        self.pos_speech = nltk.pos_tag(self.tokens_speech)
+        self.words_speech = self.corpus_speech.split(' ')
+        print(self.words_speech,"SPEEEECCCCHHH")
 
     def import_tweet(self):
-
-        import twython
         twitter = twython.Twython(CONSUMER_KEY,CONSUMER_SECRET)
         user_timeline = twitter.get_user_timeline(user_id='25073877',include_rts=False,count = 50)
         for tweet in user_timeline:
             self.corpus_tweet += tweet['text']
         p = re.compile(ur'([@#].*?\s)')
         p2 = re.compile(ur'https?:[^\s]+', re.IGNORECASE)
-        self.corpus_tweet=(re.sub(p,'Trump',self.corpus_tweet))
-        self.corpus_tweet=(re.sub(p2,'Trump ',self.corpus_tweet))
-        print (self.corpus_tweet)
+        self.corpus_tweet=(re.sub(p,'',self.corpus_tweet))
+        self.corpus_tweet=(re.sub(p2,' ',self.corpus_tweet))
+        self.sent_tweet = sent_tokenize(self.corpus_tweet)
+        self.tokens_tweet = word_tokenize(self.corpus_tweet)
+        self.pos_tweet = nltk.pos_tag(self.tokens_tweet)
+        self.words_tweet = self.corpus_tweet.split(' ')
+        print (self.words_tweet, "TWEEEETTT")
 
     def sentiment_filter(self, text_type):
         if self.sentiment == 'positive':
@@ -105,8 +98,6 @@ class Markovify:
         output_text = []
         start_words = []
 
-        # creates a list of words to start the output text (consider
-        # refactoring to have only words where prev is .)
         for word in self.tokens:
             if word[0].upper() + word[1:].lower() == word:
                 start_words.append(word)
@@ -131,13 +122,14 @@ class Markovify:
                     cache.append(next_word)
                     cache.pop(0)
                     break
-        # print(' '.join(output_text))
+        print(' '.join(output_text))
+
 
 trump = Markovify(3, 50, 'negative')
-trump.import_text('06-22-16-On_hilary.txt', 'speech')
-trump.import_text('08-08-16-2nd_amend_speech.txt', 'speech')
-trump.import_text('07-28-16-RNC.txt', 'speech')
-trump.sentiment_filter('speech')
-# trump.create_dictionary()
-# trump.generate_text()
+trump.import_speech('06-22-16-On_hilary.txt', 'speech')
 trump.import_tweet()
+# trump.import_speech('08-08-16-2nd_amend_speech.txt', 'speech')
+# trump.import_speech('07-28-16-RNC.txt', 'speech')
+trump.sentiment_filter('speech','tweet')
+trump.create_dictionary()
+trump.generate_text()
