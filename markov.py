@@ -1,14 +1,8 @@
 import nltk, re, pprint
-# from nltk import tokenize
 from nltk import sent_tokenize, word_tokenize
-# from nltk.classify import NaiveBayesClassifier
-# from nltk.corpus import subjectivity
-# from nltk.sentiment import SentimentAnalyzer
-# from nltk.sentiment.util import *
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import string
 from env import CONSUMER_KEY, CONSUMER_SECRET
-import re
 
 
 class Markovify:
@@ -66,7 +60,7 @@ class Markovify:
         p = re.compile(ur'([@#].*?\s)')
         noSymbol=(re.sub(p,'',self.corpus_tweet))
         self.corpus_tweet = noSymbol
-        print(self.corpus_tweet)
+        print self.corpus_tweet
 
     def sentiment_filter(self, text_type):
         if self.sentiment == 'positive':
@@ -143,6 +137,6 @@ trump.import_text('06-22-16-On_hilary.txt', 'speech')
 trump.import_text('08-08-16-2nd_amend_speech.txt', 'speech')
 trump.import_text('07-28-16-RNC.txt', 'speech')
 trump.sentiment_filter('speech')
-trump.create_dictionary()
-trump.generate_text()
+# trump.create_dictionary()
+# trump.generate_text()
 trump.import_tweet()
