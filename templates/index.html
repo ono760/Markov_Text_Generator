@@ -27,9 +27,9 @@
             <div class="form-group">
               <label for="style">Style</label>
               <select name="style" class="form-control">
-                <option value="Positive">Positive</option>
-                <option value="Negative">Negative</option>
-                <option value="Neutral">Neutral</option>
+                <option value="positive">Positive</option>
+                <option value="negative">Negative</option>
+                <option value="neutral">Neutral</option>
               </select>
             </div>
             <div class="form-group">
@@ -49,7 +49,7 @@
             </div>
             <div class="form-group">
               <label for="out-length">Output Length (in words)</label>
-              <input name="out-length" type="text" class="form-control">
+              <input name="out-length" type="text" class="form-control" required>
             </div>
             <div class="form-group">
               <label for="add">Add Your Own Text</label>
@@ -60,6 +60,9 @@
         </div>
         <div class="col-md-6">
           <div id="output-text">
+          {% block content %}
+          <h4>{{output}}</h4>
+          {% endblock %}
           </div>
         </div>
       </div>
