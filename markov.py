@@ -6,6 +6,10 @@ from nltk import sent_tokenize, word_tokenize
 # from nltk.sentiment import SentimentAnalyzer
 # from nltk.sentiment.util import *
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import string
+from env import CONSUMER_KEY, CONSUMER_SECRET
+import re
+
 
 class Markovify:
 
@@ -52,6 +56,18 @@ class Markovify:
             self.pos_tweet = nltk.pos_tag(self.tokens_tweet)
             self.words_tweet = self.corpus_tweet.split(' ')
 
+    def import_tweet(self):
+
+        import twython
+        twitter = twython.Twython(CONSUMER_KEY,CONSUMER_SECRET)
+        user_timeline = twitter.get_user_timeline(user_id='25073877',include_rts=False,count = 23)
+        for tweet in user_timeline:
+            self.corpus_tweet += tweet['text']
+        p = re.compile(ur'([@#].*?\s)')
+        noSymbol=(re.sub(p,'',self.corpus_tweet))
+        self.corpus_tweet = noSymbol
+        print(self.corpus_tweet)
+
     def sentiment_filter(self, text_type):
         if self.sentiment == 'positive':
             sentiment_factor = .5
@@ -73,7 +89,7 @@ class Markovify:
         for sentence in sentences:
             ss = sid.polarity_scores(sentence)
             if ss[sentiment] > sentiment_factor:
-                self.tokens += word_tokenize(sentence)         
+                self.tokens += word_tokenize(sentence)     
 
     def create_dictionary(self):
         # to create the words we may want to adjust between tweets and speech
@@ -99,10 +115,10 @@ class Markovify:
         for word in self.tokens:
             if word[0].upper() + word[1:].lower() == word:
                 start_words.append(word)
-
+                start_words = [''.join(c for c in s if c not in string.punctuation) for s in start_words]
+                start_words = [s for s in start_words if s]
         first_word_idx = int(len(start_words) * random.random())
         first_word = start_words[first_word_idx]
-
         cache = [first_word]
         for i, word in enumerate(self.tokens):
             if word == first_word:
@@ -129,3 +145,4 @@ trump.import_text('07-28-16-RNC.txt', 'speech')
 trump.sentiment_filter('speech')
 trump.create_dictionary()
 trump.generate_text()
+trump.import_tweet()
