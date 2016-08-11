@@ -39,7 +39,6 @@ class Markovify:
         self.tokens_speech = word_tokenize(self.corpus_speech)
         self.pos_speech = nltk.pos_tag(self.tokens_speech)
         self.words_speech = self.corpus_speech.split(' ')
-        # print(self.words_speech,"SPEEEECCCCHHH")
 
     def import_tweet(self):
         twitter = twython.Twython(CONSUMER_KEY,CONSUMER_SECRET)
@@ -54,8 +53,7 @@ class Markovify:
         self.tokens_tweet = word_tokenize(self.corpus_tweet)
         self.pos_tweet = nltk.pos_tag(self.tokens_tweet)
         self.words_tweet = self.corpus_tweet.split(' ')
-        # print (self.words_tweet, "TWEEEETTT")
-
+        
     def sentiment_filter(self, text_type):
         if self.sentiment == 'positive':
             sentiment_factor = .5
@@ -130,6 +128,6 @@ trump.import_speech('06-22-16-On_hilary.txt', 'speech')
 trump.import_tweet()
 trump.import_speech('08-08-16-2nd_amend_speech.txt', 'speech')
 trump.import_speech('07-28-16-RNC.txt', 'speech')
-trump.sentiment_filter('tweet')
+trump.sentiment_filter('speech')
 trump.create_dictionary()
 trump.generate_text()
