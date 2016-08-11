@@ -54,13 +54,14 @@ class Markovify:
 
         import twython
         twitter = twython.Twython(CONSUMER_KEY,CONSUMER_SECRET)
-        user_timeline = twitter.get_user_timeline(user_id='25073877',include_rts=False,count = 23)
+        user_timeline = twitter.get_user_timeline(user_id='25073877',include_rts=False,count = 50)
         for tweet in user_timeline:
             self.corpus_tweet += tweet['text']
         p = re.compile(ur'([@#].*?\s)')
-        noSymbol=(re.sub(p,'',self.corpus_tweet))
-        self.corpus_tweet = noSymbol
-        print self.corpus_tweet
+        p2 = re.compile(ur'https?:[^\s]+', re.IGNORECASE)
+        self.corpus_tweet=(re.sub(p,'Trump',self.corpus_tweet))
+        self.corpus_tweet=(re.sub(p2,'Trump ',self.corpus_tweet))
+        print (self.corpus_tweet)
 
     def sentiment_filter(self, text_type):
         if self.sentiment == 'positive':
@@ -130,7 +131,7 @@ class Markovify:
                     cache.append(next_word)
                     cache.pop(0)
                     break
-        print(' '.join(output_text))
+        # print(' '.join(output_text))
 
 trump = Markovify(3, 50, 'negative')
 trump.import_text('06-22-16-On_hilary.txt', 'speech')
