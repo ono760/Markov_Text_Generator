@@ -27,6 +27,7 @@ class Markovify:
         self.sentiment = sentiment
 
         self.dictionary = {}
+        self.output = ''
 
         self.nltk_text = None
     
@@ -111,8 +112,7 @@ class Markovify:
                 start_words.append(word)
                 start_words = [''.join(c for c in s if c not in string.punctuation) for s in start_words]
                 start_words = [s for s in start_words if s]
-        first_word_idx = int(len(start_words) * random.random())
-        first_word = start_words[first_word_idx]
+        first_word = random.choice(start_words)
         cache = [first_word]
         for i, word in enumerate(self.tokens):
             if word == first_word:
@@ -130,13 +130,13 @@ class Markovify:
                     cache.append(next_word)
                     cache.pop(0)
                     break
-        print(' '.join(output_text))
+        self.output = (' '.join(output_text))
 
-trump = Markovify(3, 50, 'negative')
-trump.import_text('06-22-16-On_hilary.txt', 'speech')
-trump.import_text('08-08-16-2nd_amend_speech.txt', 'speech')
-trump.import_text('07-28-16-RNC.txt', 'speech')
-trump.sentiment_filter('speech')
+# trump = Markovify(3, 50, 'negative')
+# trump.import_text('06-22-16-On_hilary.txt', 'speech')
+# trump.import_text('08-08-16-2nd_amend_speech.txt', 'speech')
+# trump.import_text('07-28-16-RNC.txt', 'speech')
+# trump.sentiment_filter('speech')
 # trump.create_dictionary()
 # trump.generate_text()
-trump.import_tweet()
+# trump.import_tweet()
