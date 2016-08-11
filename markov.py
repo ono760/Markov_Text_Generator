@@ -40,11 +40,11 @@ class Markovify:
         self.tokens_speech = word_tokenize(self.corpus_speech)
         self.pos_speech = nltk.pos_tag(self.tokens_speech)
         self.words_speech = self.corpus_speech.split(' ')
-        print(self.words_speech,"SPEEEECCCCHHH")
+        # print(self.words_speech,"SPEEEECCCCHHH")
 
     def import_tweet(self):
         twitter = twython.Twython(CONSUMER_KEY,CONSUMER_SECRET)
-        user_timeline = twitter.get_user_timeline(user_id='25073877',include_rts=False,count = 50)
+        user_timeline = twitter.get_user_timeline(user_id='25073877',include_rts=False,count = 200)
         for tweet in user_timeline:
             self.corpus_tweet += tweet['text']
         p = re.compile(ur'([@#].*?\s)')
@@ -55,7 +55,7 @@ class Markovify:
         self.tokens_tweet = word_tokenize(self.corpus_tweet)
         self.pos_tweet = nltk.pos_tag(self.tokens_tweet)
         self.words_tweet = self.corpus_tweet.split(' ')
-        print (self.words_tweet, "TWEEEETTT")
+        # print (self.words_tweet, "TWEEEETTT")
 
     def sentiment_filter(self, text_type):
         if self.sentiment == 'positive':
@@ -144,9 +144,9 @@ class Markovify:
 trump = Markovify(3, 50, 'negative')
 trump.import_speech('06-22-16-On_hilary.txt', 'speech')
 trump.import_tweet()
-# trump.import_speech('08-08-16-2nd_amend_speech.txt', 'speech')
-# trump.import_speech('07-28-16-RNC.txt', 'speech')
-trump.sentiment_filter('speech','tweet')
+trump.import_speech('08-08-16-2nd_amend_speech.txt', 'speech')
+trump.import_speech('07-28-16-RNC.txt', 'speech')
+trump.sentiment_filter('tweet')
 trump.create_dictionary()
 trump.generate_text()
 >>>>>>> 6ae1596... added def speech and def tweet methods
