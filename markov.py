@@ -1,9 +1,10 @@
 import nltk, re, pprint
-from nltk import sent_tokenize, word_tokenize
+from nltk import sent_tokenize, tokenize, word_tokenize
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import string
 import twython
 from env import CONSUMER_KEY, CONSUMER_SECRET
+from nltk.tokenize import RegexpTokenizer
 
 
 class Markovify:
@@ -31,13 +32,16 @@ class Markovify:
         self.output = ''
 
         self.nltk_text = None
+        self.tokenizer=RegexpTokenizer(r'\w+')
     
     def import_speech(self, text):
         with open(text, 'r') as original:
             temp_speech = original.read()
             self.corpus_speech += unicode(temp_speech, 'utf-8')
         self.sent_speech = sent_tokenize(self.corpus_speech)
-        self.tokens_speech = word_tokenize(self.corpus_speech)
+        self.tokens_speech = self.tokenizer.tokenize(self.corpus_speech)
+        print(self.tokens_speech)
+        print("")
         self.pos_speech = nltk.pos_tag(self.tokens_speech)
 
     def import_tweet(self):
@@ -48,9 +52,11 @@ class Markovify:
         p = re.compile(ur'([@#].*?\s)')
         p2 = re.compile(ur'https?:[^\s]+', re.IGNORECASE)
         self.corpus_tweet=(re.sub(p,'',self.corpus_tweet))
-        self.corpus_tweet=(re.sub(p2,' ',self.corpus_tweet))
+        self.corpus_tweet=(re.sub(p2,'TRUMP',self.corpus_tweet))
         self.sent_tweet = sent_tokenize(self.corpus_tweet)
-        self.tokens_tweet = word_tokenize(self.corpus_tweet)
+        self.tokens_tweet = self.tokenizer.tokenize(self.corpus_tweet)
+        print(self.tokens_tweet)
+        print("")
         self.pos_tweet = nltk.pos_tag(self.tokens_tweet)
         
     def sentiment_filter(self, text_type):
@@ -74,7 +80,7 @@ class Markovify:
         for sentence in sentences:
             ss = sid.polarity_scores(sentence)
             if ss[sentiment] > sentiment_factor:
-                self.tokens += word_tokenize(sentence)     
+                self.tokens += word_tokenize(sentence)    
 
     def create_dictionary(self):
         # to create the words we may want to adjust between tweets and speech
@@ -119,14 +125,15 @@ class Markovify:
                     cache.pop(0)
                     break
         self.output = (' '.join(output_text))
+        print(self.output)
 
 
 # trump = Markovify(3, 50, 'negative')
 # trump.import_text('06-22-16-On_hilary.txt', 'speech')
 # trump.import_text('08-08-16-2nd_amend_speech.txt', 'speech')
-# trump.import_text('07-28-16-RNC.txt', 'speech')
+# trump.import_speech('07-28-16-RNC.txt', 'speech')
+# trump.import_tweet()
 # trump.sentiment_filter('speech')
 # trump.create_dictionary()
-# trump.generate_text()
-# trump.import_tweet()
+# trump.generate_text() 
 
