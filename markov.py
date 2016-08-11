@@ -8,6 +8,8 @@ from nltk import sent_tokenize, word_tokenize
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import string
 from env import CONSUMER_KEY, CONSUMER_SECRET
+import re
+
 
 class Markovify:
 
@@ -58,10 +60,12 @@ class Markovify:
 
         import twython
         twitter = twython.Twython(CONSUMER_KEY,CONSUMER_SECRET)
-        user_timeline = twitter.get_user_timeline(user_id='25073877',count = 5)
+        user_timeline = twitter.get_user_timeline(user_id='25073877',include_rts=False,count = 23)
         for tweet in user_timeline:
             self.corpus_tweet += tweet['text']
-        self.sent_tweet = sent_tokenize(self.corpus_tweet)
+        p = re.compile(ur'([@#].*?\s)')
+        noSymbol=(re.sub(p,'',self.corpus_tweet))
+        self.corpus_tweet = noSymbol
         print(self.corpus_tweet)
 
     def sentiment_filter(self, text_type):
