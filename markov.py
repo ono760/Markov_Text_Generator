@@ -23,9 +23,10 @@ class Markovify:
             self.corpus_speech += unicode(temp_speech, 'utf-8')
         self.sent_speech = sent_tokenize(self.corpus_speech)
 
-    def import_tweet(self):
+    def import_tweet(self,user_id):
+        user = user_id
         twitter = twython.Twython(CONSUMER_KEY,CONSUMER_SECRET)
-        user_timeline = twitter.get_user_timeline(user_id='25073877',include_rts=False,count = 300)
+        user_timeline = twitter.get_user_timeline(user_id = user, include_rts = False, count = 500)
         for tweet in user_timeline:
             self.corpus_tweet += tweet['text']
         p = re.compile(ur'([@#].*?\s)')
