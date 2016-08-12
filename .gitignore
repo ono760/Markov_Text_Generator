@@ -2,3 +2,7 @@
 .DS_Store
 env.py
 env/
+__pycache__/
+node_modules/
+venv/
+
