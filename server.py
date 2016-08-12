@@ -5,7 +5,7 @@ import random
 app = Flask(__name__)
 
 trump = ['06-22-16-On_hilary.txt', '08-08-16-2nd_amend_speech.txt', '07-28-16-RNC.txt']
-obama = []
+obama = ['01-20-09-Inaugural_address.txt', 'degrade_and_destroy_ISIL.txt']
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -21,8 +21,8 @@ def post_info():
                 new_person.import_speech(file_locate)
         elif request.form['type'] == 'Tweet':
             new_person.corpus_tweet = request.form['add']
-            new_person.import_tweet()
-    else:
+            new_person.import_tweet('25073877')
+    elif request.form['speaker'] == 'Obama':
         if request.form['type'] == 'Speech':
             new_person.corpus_speech = request.form['add']
             for i in range(len(obama)):
@@ -30,7 +30,7 @@ def post_info():
                 new_person.import_speech(file_locate)
         elif request.form['type'] == 'Tweet':
             new_person.corpus_tweet = request.form['add']
-            new_person.import_tweet()
+            new_person.import_tweet('813286')
     new_person.sentiment_filter(request.form['type'])
     new_person.create_dictionary()
     new_person.generate_text()
