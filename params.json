@@ -1,6 +1,0 @@
-{
-  "name": "Markovify Text Generator",
-  "tagline": "Create random positive or negative text.",
-  "body": "### The larger text corpora you choose, the more choices the program will have for each transition and a better looking text will be generated.",
-  "note": "Don't delete this file! It's used internally to help with page regeneration."
-}
