@@ -31,4 +31,11 @@ Our current models are created using large corpora of texts from speeches and tw
 
 ##Screenshots
 ###### Home Page
-![alt tag](https://github.com/ono760/Job_Chaser/blob/master/public/images/home_screen.png)
+![alt tag](https://github.com/ono760/Q3_Project/blob/master/assets/images/home_page.png)
+###### Trump Text
+![alt tag](https://github.com/ono760/Q3_Project/blob/master/assets/images/trump.png)
+###### Obama Text
+![alt tag](https://github.com/ono760/Q3_Project/blob/master/assets/images/obama.png)
+###### Enter your own text
+![alt tag](https://github.com/ono760/Q3_Project/blob/master/assets/images/user_text.png)
+
