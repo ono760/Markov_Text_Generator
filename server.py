@@ -37,4 +37,5 @@ def post_info():
     return render_template('index.html', output=new_person.output, speaker=request.form['speaker'])
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.debug = True
+    app.run()
