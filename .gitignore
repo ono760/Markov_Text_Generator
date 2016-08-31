@@ -5,5 +5,8 @@ __pycache__/
 node_modules/
 venv/
 *.pyc
+Procfile
+markov.pyc
+requirements.txt
 
 
