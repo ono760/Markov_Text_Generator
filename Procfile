@@ -1,1 +1,1 @@
-web: gunicorn <server>:server --log-file -
+web: python q3-project/server.py
