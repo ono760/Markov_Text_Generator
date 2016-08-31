@@ -1,4 +1,17 @@
+click==6.6
+Flask==0.11.1
+gunicorn==19.6.0
+itsdangerous==0.24
+Jinja2==2.8
+MarkupSafe==0.23
+nltk==3.2.1
+numpy==1.11.1
 oauthlib==1.1.2
+ordereddict==1.1
+python-dotenv==0.5.1
 requests==2.11.0
 requests-oauthlib==0.6.2
+six==1.10.0
+tweepy==3.5.0
 twython==3.4.0
+Werkzeug==0.11.10
