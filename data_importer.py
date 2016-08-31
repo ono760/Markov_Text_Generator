@@ -24,4 +24,3 @@ sent = nltk.sent_tokenize(relevant_text)
 
 sent = [nltk.word_tokenize(i) for i in sent]
 sent = [nltk.pos_tag(i) for i in sent]
-print sent
