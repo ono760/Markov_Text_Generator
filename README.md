@@ -15,7 +15,7 @@ Our current models are created using large corpora of texts from speeches and tw
 
 
 
-|Technologies Used    |
+|Technologies Used   |
 | -------------------- |
 | Python 2.7    		  	|
 | HTML                 |
