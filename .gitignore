@@ -8,5 +8,5 @@ venv/
 Procfile
 markov.pyc
 requirements.txt
-
+env.pyc
 

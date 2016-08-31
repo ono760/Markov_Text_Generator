@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, jsonify
 from markov import Markovify
 import random
+import markov.py
 
 app = Flask(__name__)
 
