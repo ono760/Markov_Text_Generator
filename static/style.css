@@ -1,0 +1,16 @@
+h1,
+h2 {
+    color: #2D5E3E;
+}
+
+html,
+body {
+    background-color: #BFCBC2;
+    font-family: roboto;
+    font-size: 18px;
+}
+
+#submit-button:hover {
+    background-color: #76EE00;
+    font-weight: bold;
+}
