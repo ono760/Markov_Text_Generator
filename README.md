@@ -1,5 +1,5 @@
 # Markov Text Generator
-####[Try it out!](https://markovtextgen.herokuapp.com/)
+####[Try it out!](https://gentext.herokuapp.com/)
 ***
 
 This application was built in collaboration with @superkun2010. 
